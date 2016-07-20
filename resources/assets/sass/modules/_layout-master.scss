@@ -1,0 +1,41 @@
+body {
+  font: $base-font-size;
+  background: $base-background;
+  padding: 2rem 2rem 2rem 2rem;
+}
+
+.finky {
+  font: {
+    family: fantasy;
+    size: 20rem;
+    weight: 900;
+  }
+}
+
+a {
+  font-weight: $bold;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+section#main {
+  width: 97%;
+
+  p, div {
+    font-size: $font-size-paragraph;
+    a {
+      font-weight: $bold;
+    }
+  }
+}
+
+// #main p {} #main div, #main div a, #main p a
+
+
+
+
+
+
+

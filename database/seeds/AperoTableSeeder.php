@@ -11,11 +11,29 @@ class AperoTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Apero::class, 10)->create()->each(function ($post) {
-            $tagsId = [1, 2, 3]; // tags créés avant voir la classe DatabaseSeeder
+        
+        factory(App\Apero::class, 10)->create()->each(function ($apero)  {
+            
+            $tagsId = [1, 2, 3, 4, 5]; // tags créés avant voir la classe DatabaseSeeder
             shuffle($tagsId); // mélange les clés du tableau
-            $post->tags()->attach([$tagsId[0], $tagsId[1]]);
-        });
+            $apero->tags()->attach([$tagsId[0], $tagsId[1]]);
 
+            $uri = str_random(12) . '.jpg';
+            
+            $apero->uri = $uri;
+            
+            $apero->save(); // persist
+
+            $fileName = file_get_contents('http://lorempicsum.com/futurama/350/200/' . rand(1, 9));
+
+            $uploads = public_path(env('UPLOADS'));
+            
+            File::put(
+
+                $uploads . DIRECTORY_SEPARATOR . $uri, $fileName
+            );
+            
+            
+        });
     }
 }

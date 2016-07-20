@@ -1,0 +1,11 @@
+#nav {
+  li {
+    @include border-radius(25px);
+    a {
+      color: red;
+      &:hover {
+        color: pink;
+      }
+    }
+  }
+}

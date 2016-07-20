@@ -13,12 +13,12 @@ class CategoryTableSeeder extends Seeder
     {
         DB::table('categories')->insert(
             [
-                ['name' => 'php'],
-                ['name' => 'js'],
-                ['name' => 'Laravel'],
-                ['name' => 'wordpress'],
-                ['name' => 'symfony'],
-                ['name' => 'html/css'],
+                ['title' => 'php'],
+                ['title' => 'js'],
+                ['title' => 'Laravel'],
+                ['title' => 'wordpress'],
+                ['title' => 'symfony'],
+                ['title' => 'html/css'],
             ]
         );
     }
