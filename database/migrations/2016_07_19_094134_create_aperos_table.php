@@ -14,7 +14,7 @@ class CreateAperosTable extends Migration
     {
         Schema::create('aperos', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('users_id')->nullable();
+            $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('category_id')->nullable();
             $table->string('title', 100);
             $table->text('abstract');
@@ -22,7 +22,7 @@ class CreateAperosTable extends Migration
             $table->string('uri');
             $table->enum('status', ['published', 'unpublished'])->default('unpublished');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('SET NULL');
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('SET NULL');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

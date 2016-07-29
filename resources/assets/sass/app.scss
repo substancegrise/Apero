@@ -1,5 +1,18 @@
 // @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import 'modules/reset';
 
-.body{
-  backgound-color: red;
-}
+// variables
+@import 'modules/config';
+
+//Grille de rapheael Goeter
+@import 'modules/grillade';
+
+// mixin css general
+@import 'modules/mixin';
+
+// navigation
+@import 'modules/nav';
+
+// layout master
+@import 'modules/layout-master';
+

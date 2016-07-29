@@ -12,11 +12,11 @@ class TagTableSeeder extends Seeder
     public function run()
     {
         DB::table('tags')->insert([
-            ['name' => 'asynchrone'],
-            ['name' => 'VM'],
-            ['name' => 'Promess'],
-            ['name' => 'FastCGI'],
-            ['name' => 'version'],
+            ['name' => 'Php'],
+            ['name' => 'Wordpress'],
+            ['name' => 'Laravel'],
+            ['name' => 'JQuery'],
+            ['name' => 'Mobile'],
         ]);
     }
 }

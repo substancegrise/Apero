@@ -22,9 +22,16 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 
 $factory->define(App\Apero::class, function (Faker\Generator $faker) {
+
+
+    $titles = array('Apero wodpress', 'Apero php', 'Apero jQuery', 'Apero laravel', 'Apero mobile');
+    $status = ['published', 'unpublished'];
+
     return [
-        'title' => $faker->name,
+        'title' => $titles[rand(0,4)],
+        'date_event' => $faker->dateTimeBetween($startDate= 'now', $endDate='+1 years'),
         'abstract' => $faker->paragraph(),
-        'content' => $faker->text()
+        'status' => $status[rand(0,1)],
+        'content' => $faker->text(),
     ];
 });
