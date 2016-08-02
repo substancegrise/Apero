@@ -1,12 +1,9 @@
 @extends('layouts.admin')
 
 
-    @section('content')
+@section('content')
 
-    <p>
-        <a href="{{url('admin/apero/create')}}"><input type="submit" value="AJOUTER UN APERO"></a>
-        <a href="{{url('/')}}"><input type="submit" value="RETOUR AU SITE PUBLIC"></a>
-    </p>
+
 
     @if(!empty($aperos))
         {{$aperos->links()}}
@@ -23,40 +20,63 @@
                 </tr>
                 </thead>
                 <tbody>
-            <tr>
-                @include('admin.partials.flash_message')
-            @foreach($aperos as $apero)
+                <tr>
+                    @include('admin.partials.flash_message')
+                    @foreach($aperos as $apero)
 
-                    <td><a href="{{route('admin.apero.edit', [$apero->id])}}">{{$apero->title}}</a></td>
+                        <td><a href="{{route('admin.apero.edit', [$apero->id])}}">{{$apero->title}}</a></td>
 
-                    <td>@if (empty($apero->user->username))
-                        invité
+                        <td>@if (empty($apero->user->username))
+                                invité
                             @else
-                            {{$apero->user->username}}
-                        @endif
-                    </td>
-                    <td>{{$apero->user->email}}</td>
-                    <td>{{$apero->created_at}}</td>
-                    <td>{{$apero->date_event}}</td>
-                    <td><a href="{{route('admin.apero.edit', [$apero->id])}}"><input type="submit" value="edit"></a></td>
-                    <td><a href="{{route('admin.apero.create')}}"><input type="submit" value="create"></a></td>
-                    <td><form class="delete" action="{{route('admin.apero.destroy',[$apero->id])}}" method="post" >
-                    {{method_field('DELETE')}}
+                                {{$apero->user->username}}
+                            @endif
+                        </td>
+                        <td>{{$apero->user->email}}</td>
+                        <td>{{$apero->created_at}}</td>
+                        <td>{{$apero->date_event}}</td>
+                        <td><a href="{{route('admin.apero.edit', [$apero->id])}}"><input type="submit" value="edit"></a>
+                        </td>
+                        <td>
+                            <form class="delete" action="{{route('admin.apero.destroy',[$apero->id])}}" method="post">
+                                {{method_field('DELETE')}}
+                                {{csrf_field()}}
+                                <input type="submit" value="supprimer"></form>
+                        </td>
 
-                    {{csrf_field()}}
+                        <td>
+                            <form action="{{route('admin.publish.update', [$apero->id])}}" method="post">
+                                {{csrf_field()}}
+                                {{method_field('PUT')}}
 
-                    <input type="submit" value="supprimer"></form></td>
-                    <td><p>{{$apero->status}}</p></td>
-            </tr>
-            @endforeach
+                                @if($apero->status == "published")
+
+                                    <input type="hidden" value="unpublished" name="status">
+
+                                    <input type="submit" value="Dépublier">
+
+                                @else
+
+                                    <input type="hidden" value="published" name="status">
+
+                                    <input type="submit" value="Publier">
+
+                                @endif
+                            </form>
+                        </td>
 
 
-    @else
-        <p>Aucun apero trouvé</p>
-    @endif
+                        <td><p>{{$apero->status}}</p></td>
+                </tr>
+                @endforeach
 
-    </tbody>
-        </table>
+
+                @else
+                    <p>Aucun apero trouvé</p>
+                @endif
+
+                </tbody>
+            </table>
             <p>{{$aperos->links()}}</p>
         </div>
 @endsection

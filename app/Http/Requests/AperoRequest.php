@@ -25,8 +25,10 @@ class AperoRequest extends Request
     {
         return [
             'title' => 'required|string',
+            'email' =>'required|email',
+            'date_event'=> 'required|after:today',
             'category_id' => 'required|integer',
-            'date_event' => 'required|date',
+            'date' => 'required|after:today',
             'status' => 'in:published,unpublished',
             'content'=> 'required|string',
             'abstract' => 'required|string',

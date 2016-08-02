@@ -1,49 +1,51 @@
 @extends('layouts.admin')
 
 @section('content')
-    <form  action="{{route('admin.apero.store')}}"  method="POST" enctype="multipart/form-data">
+    <form action="{{route('admin.apero.store')}}" method="POST" enctype="multipart/form-data">
 
         {{ csrf_field() }}
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                @endforeach
+            </div>
+        @endif
 
         <p> l'ensemble des éléments compotant une * sont obligatoire</p>
-        <p> <label for="title">titre de l'apero *</label></p>
-        <input id="title" type="text" name="title" value="">
 
-        @if($errors->has('title'))
-            <span class="admin_error">
-        {{$errors->first('title')}}
-    </span>
-        @endif
+        <p><label for="title">titre de l'apero *</label>
+            <input id="title" type="text" name="title" value="{{old('title')}}">
+            @if($errors->has('title'))
+                <span class="admin_error">{{$errors->first('title')}}</span>
+            @endif
+        </p>
+        <p>
+            <label for="email">email *</label>
+            <input id="email" type="text" name="email" value="{{old('email')}}">
+            @if($errors->has('email'))
+                <span class="admin_error">{{$errors->first('email')}}</span>
+            @endif
+        </p>
 
-        <p> <label for="email">email *</label></p>
-        <input id="email" type="text" name="email" value="">
+        <p>
+            <label for="date_event">Date de l'apéro *</label>
+            <input id="date_event" type="date" name="date_event" value="{{old('date_event')}}">
+            @if($errors->has('date_event'))
+                <span class="admin_error">{{$errors->first('date_event')}}</span>
+            @endif
+        </p>
+        <div>
+            <p><label for="abstract">Résume de l'événement *</label></p>
+            <textarea rows="1" cols="60" id="abstract" name="abstract">{{old('abstract')}}</textarea>
 
-        @if($errors->has('email'))
-            <span class="admin_error">
-        {{$errors->first('email')}}
-    </span>
-        @endif
-
-        <p> <label for="date_event">Date de l'apéro *</label></p>
-        <input id="date_event" type="date" name="date_event" value="">
-
-        @if($errors->has('date_event'))
-            <span class="admin_error">
-        {{$errors->first('date_event')}}
-    </span>
-        @endif
-
-        <p> <label for="abstract">Résume de l'événement *</label></p>
-        <textarea  rows="1" cols="60" id="abstract" name="abstract"> tapez une courte présentation ici</textarea>
-
-        @if($errors->has('abstract'))
-            <span class="admin_error">
-        {{$errors->first('abstract')}}
-    </span>
-        @endif
-
-        <p> <label for="content">content texte *</label></p>
-        <textarea  rows="10" cols="60" id="content" name="content"> tapez votre texte de presentation ici</textarea>
+            @if($errors->has('abstract'))
+                <span class="admin_error">{{$errors->first('abstract')}}</span>
+            @endif
+        </div>
+        <p><label for="content">content texte *</label></p>
+        <textarea rows="10" cols="60" id="content" name="content">{{old('content')}}</textarea>
 
         @if($errors->has('content'))
             <span class="admin_error">
@@ -74,7 +76,8 @@
             @forelse($tags as $id => $name)
 
                 <label for="{{$id}}">{{$name}}</label>
-                <input {{( !empty(old('tags')) && in_array($id, old('tags')) )? 'checked' : ''}} id="{{$id}}" type="checkbox" name="tags[]" value="{{$id}}">
+                <input {{( !empty(old('tags')) && in_array($id, old('tags')) )? 'checked' : ''}} id="{{$id}}"
+                       type="checkbox" name="tags[]" value="{{$id}}">
 
             @empty
                 aucun mot clé
@@ -102,6 +105,6 @@
             @endif
         </p>
 
-        <p><input type="submit" ></p>
+        <p><input type="submit"></p>
     </form>
 @endsection

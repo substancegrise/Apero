@@ -1,20 +1,12 @@
 <ul>
-    <li>
-        hello sidebar
-        @if(Auth::check())
-        <li><br><a href="{{route('admin.apero.index')}}">APERO CRUD</a></li>
+        <p>{{Lang::get('marketing.welcome')}}</p>
+
+       {{-- @if(Auth::check())
+
+        <br><a href="{{route('admin.apero.index')}}">APERO CRUD</a>
             <li><a href="{{url('logout')}}">LOGOUT</a>
         @else
             <li><a href="{{URL('login')}}">LOGIN</a></li>
-        @endif
-    </li>
+        @endif--}}
 
 </ul>
-{{--<ul>
-
-@forelse($categories as $id => $title)
-      <br><a href="{{url('category', $id)}}">{{$categories[$id]->title}}</a>
-  @empty
-  @endforelse
-
-</ul>--}}

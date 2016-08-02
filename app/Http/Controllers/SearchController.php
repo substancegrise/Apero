@@ -14,16 +14,16 @@ class SearchController extends Controller
         return view ('front.apero.search');
     }*/
 
-    public function search( Request $request)
+    public function search(Request $request)
     {
-        $aperos=[];
-        $search= '';
+        $aperos = [];
+        $search = '';
 
-        if(!empty($request->all()))
+        if (!empty($request->all()))
             $search = $request->q;
-        $aperos= Apero::search($search)->orderBy("date_event")->paginate(5)->setPath('search?q='.$search);
+        $aperos = Apero::search($search)->orderBy("date_event")->paginate(5)->setPath('search?q=' . $search);
 
-        return view ('front.apero.search', ['aperos'=>$aperos, 'search'=>$search]);
+        return view('front.apero.search', ['aperos' => $aperos, 'search' => $search]);
     }
 
 }

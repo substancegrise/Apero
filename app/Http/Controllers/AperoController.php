@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Apero;
-use App\tag;
+use App\Tag;
 use App\User;
 use App\Category;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\File;
 
 class AperoController extends Controller
 {
@@ -43,7 +44,7 @@ class AperoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -52,7 +53,7 @@ class AperoController extends Controller
         $user = User:: create($request->all());
 
         if (!empty($request->input('email'))) {
-            $apero->user_id = $user->id ;
+            $apero->user_id = $user->id;
             $apero->save();
         }
 
@@ -63,7 +64,6 @@ class AperoController extends Controller
 
         // PICTURES
 
-        //$this->createImage($request, $apero->id);
 
         if (!is_null($request->picture)) {
 
@@ -77,15 +77,14 @@ class AperoController extends Controller
 
             $apero->uri = $fileName;
 
-            $apero-> save();
+            $apero->save();
 
 
         }
 
 
-
         return redirect()
-             ->route('admin.apero.index')
+            ->route('admin.apero.index')
             ->with(['message' => 'votre apero à bien été ajouté']);
 
     }
@@ -93,7 +92,7 @@ class AperoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -104,17 +103,12 @@ class AperoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //$published = '';
-        //$unpublished= '';
 
-        //($post->status =='published')? $unpublished ='checked' : $unpublished = 'checked';
-        //'$published', '$unpublished'
-        // PO
         $categories = Category::lists('title', 'id');
         $tags = Tag::lists('name', 'id');
 
@@ -126,9 +120,10 @@ class AperoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     *
      */
     public function update(Request $request, $id)
     {
@@ -137,18 +132,13 @@ class AperoController extends Controller
         $apero->update($request->all());
 
 
-        // todo attach detach  mettre à jour les tags pour le post
-
-        // METHODE 2
-        // $tags = (!empty($request->tags))? $request->tags : []
-        // $post->tags()->sync($tags);
-
         if (!empty($request->tags)) {
             $apero->tags()->detach();
             $apero->tags()->attach($request->input('tags'));
         } else {
             $apero->tags()->detach();
         }
+
         // Supression de l'image
 
         if (!is_null($request->delete_picture) || !is_null($request->picture)) {
@@ -157,6 +147,23 @@ class AperoController extends Controller
 
 
             $this->createImage($request, $apero->id);
+
+        }
+
+        if (!is_null($request->picture)) {
+
+            $img = $request->picture;
+
+            $ext = $img->getClientOriginalExtension();
+
+            $fileName = md5(uniqid(rand(), true)) . ".$ext";
+
+            $img->move(env('UPLOADS'), $fileName);
+
+            $apero->uri = $fileName;
+
+            $apero->save();
+
 
         }
 
@@ -169,11 +176,58 @@ class AperoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+
+        $apero = Apero::find($id);
+        $this->deleteImage($apero);
+        $apero->delete();
+
+
+        Apero::destroy($id);
+
+        return back()->with(['message' => 'success destroy']);
     }
+
+    public function deleteImage($apero)
+
+    {
+        if (!is_null($apero->uri)) {
+            $fileName = public_path('assets/images/' . $apero->uri);
+
+
+            if (File::exists($fileName)) {
+                File::delete($fileName);
+                Apero::destroy($apero->uri);
+
+            }
+        }
+
+    }
+
+    public function createImage($request)
+    {
+        if (!is_null($request->picture)) {
+
+
+            $img = $request->picture;
+
+            $ext = $img->getClientOriginalExtension();
+
+
+            $fileName = md5(uniqid(rand(), true)) . ".$ext";
+
+            $img->move(env('UPLOADS'), $fileName);
+
+            $apero->uri = $fileName;
+
+            $apero->save();
+        }
+
+    }
+
+
 }

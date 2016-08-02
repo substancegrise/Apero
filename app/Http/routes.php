@@ -12,7 +12,6 @@
 */
 
 
-
 Route::get('/', 'FrontController@index');
 
 
@@ -24,16 +23,18 @@ Route::get('create', 'FrontController@createApero');
 
 Route::post('create', 'FrontController@store');
 
-Route::any ('search', 'SearchController@search' );
+Route::any('search', 'SearchController@search');
 
 Route::any('login', 'LoginController@login');
 
 Route::any('logout', 'LoginController@logout');
 
-Route::group(['prefix' =>'admin', 'middleware' => 'auth'], function(){
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
 
     Route::resource('apero', 'AperoController');
+    Route::resource('publish', 'PublishController');
+
 
 });
 

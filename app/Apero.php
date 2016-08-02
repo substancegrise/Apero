@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\User;
 
 
-
 class Apero extends Model
 {
     // entité propriétaire car elle possède la clé étrangère
 
-    protected $fillable=[
+    protected $fillable = [
 
         'title', 'user_id', 'abstract', 'content', 'uri', 'status', 'category_id', 'date_event'
     ];
@@ -49,18 +48,17 @@ class Apero extends Model
 
     public function scopesearch($query, $word)
     {
-        return $query ->where('title', 'like', '%'.$word.'%')
-                        ->orWhere('content', 'like','%'.$word.'%' );
+        return $query->where('title', 'like', '%' . $word . '%')
+            ->orWhere('content', 'like', '%' . $word . '%');
 
     }
 
-    public function  scopetime($query)
+    public function scopetime($query)
     {
-        $now= Carbon::now();
+        $now = Carbon::now();
 
         return $query->where('date_event', '>', $now);
     }
-
 
 
 }

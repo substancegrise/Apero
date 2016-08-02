@@ -11,13 +11,10 @@
 
         @foreach($aperos->tags as $tag)
             <span class="apero__tag"><a href="{{url('tag', $tag->id)}}"> {{$tag->name}}</a> </span>
-        @if(!$tag)
-            <span class="apero__tag">aucun mot clé</span>
+            @if(!$tag)
+                <span class="apero__tag">aucun mot clé</span>
             @endif
         @endforeach
-
-
-
 
 
     </div>
