@@ -141,16 +141,17 @@ class AperoController extends Controller
 
         // Supression de l'image
 
-        if (!is_null($request->delete_picture) || !is_null($request->picture)) {
+        if (!is_null($request->delete_picture) || !is_null($request->picture))
+        {
 
             $this->deleteImage($apero);
 
 
-            $this->createImage($request, $apero->id);
+            $this->createImage($request, $apero);
 
         }
 
-        if (!is_null($request->picture)) {
+        /*if (!is_null($request->picture)) {
 
             $img = $request->picture;
 
@@ -165,7 +166,7 @@ class AperoController extends Controller
             $apero->save();
 
 
-        }
+        }*/
 
 
         return redirect()
@@ -208,7 +209,7 @@ class AperoController extends Controller
 
     }
 
-    public function createImage($request)
+    private function createImage(Request $request,$apero)
     {
         if (!is_null($request->picture)) {
 
@@ -225,6 +226,7 @@ class AperoController extends Controller
             $apero->uri = $fileName;
 
             $apero->save();
+
         }
 
     }

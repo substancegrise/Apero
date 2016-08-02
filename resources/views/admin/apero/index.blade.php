@@ -26,6 +26,8 @@
 
                         <td><a href="{{route('admin.apero.edit', [$apero->id])}}">{{$apero->title}}</a></td>
 
+                     @if($apero->user)
+
                         <td>@if (empty($apero->user->username))
                                 invité
                             @else
@@ -33,6 +35,7 @@
                             @endif
                         </td>
                         <td>{{$apero->user->email}}</td>
+                        @endif
                         <td>{{$apero->created_at}}</td>
                         <td>{{$apero->date_event}}</td>
                         <td><a href="{{route('admin.apero.edit', [$apero->id])}}"><input type="submit" value="edit"></a>
